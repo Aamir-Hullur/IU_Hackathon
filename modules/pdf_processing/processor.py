@@ -1,11 +1,12 @@
 import PyPDF2
 import io
 from PIL import Image
-import easyocr
 import numpy as np
 import configparser
+import easyocr
 import os
 
+# Function to extract images from a PDF file
 def extract_images_from_pdf(pdf_path):
     images = []
     pdf_document = PyPDF2.PdfFileReader(pdf_path)
@@ -20,61 +21,85 @@ def extract_images_from_pdf(pdf_path):
                     images.append(Image.open(io.BytesIO(image_bytes)))
     return images
 
+# Function to save images as a single PDF
 def images_to_pdf(images, output_pdf):
     if images:
         images[0].save(output_pdf, save_all=True, append_images=images[1:])
 
+# Function to categorize images based on text detected in specified locations
 def categorize_images(images, config):
-    reader = easyocr.Reader(["en"])
-    ocr_location = config['OCR']['Loc1'].split(',')
-    x1, y1, x2, y2 = map(int, ocr_location)
-
+    reader = easyocr.Reader(['en'])  # Initialize the OCR reader
+    texts = [config['OCR']['Text1'], config['OCR']['Text2'], config['OCR']['Text3']]
+    locations = [
+        tuple(map(int, config['OCR']['Loc1'].split(','))),
+        tuple(map(int, config['OCR']['Loc2'].split(','))),
+        tuple(map(int, config['OCR']['Loc3'].split(',')))
+    ]
+    
     categorized_images = {
         "Complaint": [],
         "Summons": [],
         "Appearance": []
     }
     current_category = None
-
+    current_text_index = 0
+    
     for image in images:
+        if current_text_index >= len(texts):
+            break
+        
+        x1, y1, x2, y2 = locations[current_text_index]
+        target_text = texts[current_text_index].upper()
         cropped_image = image.crop((x1, y1, x2, y2))
         results = reader.readtext(np.array(cropped_image))
+        
+        found = False
         for result in results:
             text = result[1].upper()
-            print(f"Detected OCR Text: {text}")  # Debugging aid
-            if "COMPLAINT" in text:
+            if target_text in text:
+                found = True
+                break
+        
+        if found:
+            current_text_index += 1
+            if current_text_index == 1:
                 current_category = "Complaint"
-                break
-            elif "SUMMONS" in text:
+            elif current_text_index == 2:
                 current_category = "Summons"
-                break
-            elif "APPEARANCE" in text:
+            elif current_text_index == 3:
                 current_category = "Appearance"
-                break
-
+        
         if current_category:
             categorized_images[current_category].append(image)
-
+    
     return categorized_images
 
 # if __name__ == "__main__":
 #     config = configparser.ConfigParser()
-#     config.read('config.cfg')  # Assume the configuration file path is correct
+#     config.read('config.cfg')
+    
+#     input_folder = config['Files']['INPUT']
+#     output_folder = config['Files']['OUTPUT']
+    
+#     if not os.path.exists(output_folder):
+#         os.makedirs(output_folder)
+    
+#     for file_name in os.listdir(input_folder):
+#         if file_name.endswith(".pdf"):
+#             pdf_path = os.path.join(input_folder, file_name)
+#             images = extract_images_from_pdf(pdf_path)
+#             print(f"Extracted {len(images)} images from {pdf_path}")
+            
+#             categorized_images = categorize_images(images, config)
+#             base_filename = os.path.splitext(os.path.basename(pdf_path))[0]
+            
+#             for category, imgs in categorized_images.items():
+#                 output_pdf_path = os.path.join(output_folder, f"{base_filename}_{category}.pdf")
+#                 images_to_pdf(imgs, output_pdf_path)
+#                 print(f"Generated PDF for {category} at {output_pdf_path}")
 
-#     pdf_path = config['Files']['INPUT']
-#     output_path = config['Files']['OUTPUT']
 
-#     images = extract_images_from_pdf(pdf_path)
-#     print(f"Extracted {len(images)} images from {pdf_path}")
-
-#     categorized_images = categorize_images(images, config)
-
-#     base_filename = os.path.splitext(os.path.basename(pdf_path))[0]
-
-#     for category, imgs in categorized_images.items():
-#         output_pdf_path = f"{output_path}/{base_filename}_{category}.pdf"
-#         images_to_pdf(imgs, output_pdf_path)
-#         print(f"Generated PDF for {category} at {output_pdf_path}")
+# In[ ]:
 
 
 

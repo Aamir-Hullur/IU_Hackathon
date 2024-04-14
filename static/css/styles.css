@@ -1,0 +1,245 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #FFFBFF; /* A light background color */
+    color: #333; /* Standard text color for readability */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CFE0C3; /* White background for the nav bar */
+    padding: 10px 20px; /* Slightly less vertical padding for a slimmer nav bar */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* A subtle shadow to lift the nav bar off the page */
+    border-bottom: 1px solid #eee; /* A light border to define the bottom of the nav bar */
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 24px;
+    color: #333; /* Dark color for contrast */
+}
+
+.nav-items a {
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 8px 16px;
+    color: #333;
+    border: 1px solid transparent; /* Invisible border to maintain layout during hover state */
+    border-radius: 4px; /* Rounded corners for buttons */
+    transition: all 0.3s ease; /* Smooth transition for interactive states */
+}
+
+.nav-items a:hover {
+    border-color: #ccc; /* A border color on hover */
+    background-color: #f9f9f9; /* A slight background color on hover */
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: calc(93vh - 52px); /* Adjust height to account for the nav bar */
+}
+
+#pdfInput {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content horizontally */
+    justify-content: center; /* Centers the content vertically */
+    border-right: 1px solid #eee; /* A light border to separate the input from the preview */
+    background: #f9f9f9; /* A slightly grey background for the upload area */
+    height: 80%; /* Ensures that pdfInput fills the height of its container */
+}
+
+input[type="file"] {
+    padding: 10px 15px;
+    /* margin-bottom: 10px; Margin between button and additional options */
+    font-size: 16px;
+    color: #5f6368; /* A dark grey color for the text */
+    background: #fff; /* White background for the button */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    background-color: #f1f1f1; /* A lighter grey on hover */
+}
+
+#pdfPreview {
+    width: 50%;
+    overflow-y: auto;
+    background: #fff;
+    padding: 20px;
+    height: 80%
+}
+
+/* Additional styles for other elements inspired by the design */
+.upload-area {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #CFE0C3;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.upload-area:hover {
+    border-color: #aaa; /* Darker border on hover */
+}
+
+/* Style for buttons and links related to file sources like 'Google Drive', 'Dropbox', etc. */
+.file-source-button {
+    padding: 8px 16px;
+    margin-right: 10px; /* Space between buttons */
+    font-size: 14px;
+    color: #5f6368;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none; /* Removing underline from links */
+    display: inline-block; /* To align next to each other */
+    transition: all 0.3s ease;
+}
+
+.file-source-button:hover {
+    border-color: #aaa; /* Darker border on hover */
+    background-color: #f1f1f1;
+}
+
+
+
+.team-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto; /* Center the container on the page */
+}
+
+.member {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.member h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.member p {
+    color: #666;
+}
+
+.member a {
+    color: #0077b5; /* LinkedIn blue */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.member a:hover {
+    color: #005fa3; /* Darker LinkedIn blue on hover */
+}
+
+
+.upload-area {
+    /* ... existing styles ... */
+    border: 2px dashed #ccc; /* make the border dashed to indicate it's a drop zone */
+    text-align: center;
+    padding: 20px;
+    background-color: #e0e0e0; /* Darker shade for the background */
+}
+
+/* Highlight the drop zone on drag over */
+.upload-area.dragover {
+    border-color: #333; /* change color when dragging over */
+}
+
+.button {
+    /* Styles for your 'Choose File' button if needed */
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    background: #40798C;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.button {
+    /* ... existing styles ... */
+    transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+.button-hover {
+    background-color: #357ae8; /* Change this color to whatever you want for the hover effect */
+}
+
+
+#pdf-navigation {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.nav-button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.nav-button:disabled {
+    background: #e0e0e0;
+    color: #999;
+    border-color: #999;
+    cursor: default;
+}
+
+#page-info {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+
+
+.pdf-container {
+    position: relative; /* Needed for absolute positioning of the arrows */
+}
+
+.pdf-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.nav-arrow {
+    border: none;
+    background-color: #333; /* Dark background for better visibility */
+    color: #fff; /* White text color */
+    font-size: 24px; /* Larger font size for visibility */
+    padding: 8px 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.nav-arrow:disabled {
+    background-color: #555; /* Darker background for disabled state */
+    cursor: not-allowed;
+}
+
+.nav-arrow:hover:not(:disabled) {
+    background-color: #555; /* Slightly darker on hover */
+}
+
+#page-info {
+    font-size: 16px;
+}

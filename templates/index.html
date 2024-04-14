@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR PDF Splitter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">OCR</div>
+        <div class="nav-items">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('team') }}">Team</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div id="pdfInput" class="upload-area">
+            <input type="file" id="fileInput" accept="application/pdf" hidden>
+            <label for="fileInput" class="button">Choose File</label>
+            <p>or drag and drop files here</p>
+        </div>
+        <div id="pdfPreview"></div>
+    </div>
+<!-- 
+    <div id="pdfPreview"></div>
+        <div id="pdf-navigation">
+            <button id="prev-page" class="nav-button">&lt; Previous Page</button>
+            <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
+            <button id="next-page" class="nav-button">Next Page &gt;</button>
+        </div> -->
+        <!-- <div id="pdfPreview" class="pdf-container"> -->
+            <!-- PDF will be rendered inside the canvas -->
+            <!-- <canvas id="the-canvas"></canvas> -->
+        </div>
+        <div class="pdf-navigation">
+            <button id="prev-page" class="nav-arrow">&lt;</button>
+            <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
+            <button id="next-page" class="nav-arrow">&gt;</button>
+        </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

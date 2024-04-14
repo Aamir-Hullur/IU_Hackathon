@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - ProudPunekars</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav>
+        <!-- Your existing nav bar content -->
+        <!-- Make sure to update the href for "Team" to link to this page -->
+        <div class="nav-logo">OCR</div>
+        <div class="nav-items">
+            <a href="index.html">Home</a> <!-- Assuming your homepage is index.html -->
+            <a href="team.html">Team</a> <!-- Active page -->
+        </div>
+    </nav>
+    
+    <div class="team-container">
+        <h1>Team - ProudPunekars</h1>
+        <p>Meet the team of experts with a Masters in Computer Science.</p>
+        
+        <div class="member">
+            <h2>Aamir Hullur</h2>
+            <p>Education: Masters in Computer Science</p>
+            <a href="https://www.linkedin.com/in/aamir-hullur/" target="_blank">LinkedIn Profile</a>
+        </div>
+
+        <div class="member">
+            <h2>Atharva Gurav</h2>
+            <p>Education: Masters in Computer Science</p>
+            <a href="https://www.linkedin.com/in/atharva-gurav-505124204/" target="_blank">LinkedIn Profile</a>
+        </div>
+
+        <div class="member">
+            <h2>Maitreya Kanitkar</h2>
+            <p>Education: Masters in Computer Science</p>
+            <a href="https://www.linkedin.com/in/kmaitreya/" target="_blank">LinkedIn Profile</a>
+        </div>
+
+        <div class="member">
+            <h2>Parth Godse</h2>
+            <p>Education: Masters in Computer Science</p>
+            <a href="https://www.linkedin.com/in/parth-godse-05a777247/" target="_blank">LinkedIn Profile</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

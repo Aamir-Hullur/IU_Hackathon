@@ -5,7 +5,7 @@ import os
 import configparser
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'modules/pdf_processing/input/'
+app.config['INPUT_FOLDER'] = 'modules/pdf_processing/input/'
 app.config['OUTPUT_FOLDER'] = 'modules/pdf_processing/output/'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 
@@ -27,30 +27,49 @@ def home():
 def upload_file():
     print("Upload")
     if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            print(filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(filepath)
-            
-            config.set('Files', 'INPUT', filepath)
-            with open('modules/pdf_processing/config.cfg', 'w') as configfile:
-                config.write(configfile)
+        files = request.files.getlist('file')
+        # file = request.files['file']
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                print(filename)
+                filepath = os.path.join(app.config['INPUT_FOLDER'], filename)
+                file.save(filepath)
 
-            pdf_path = config['Files']['INPUT']
-            output_path = config['Files']['OUTPUT']
-            # images_folder_path = config['Files']['IMAGES']
-            print(f'pdf_path: {pdf_path} output_path: {output_path} ')
-            images = extract_images_from_pdf(pdf_path)
-            print(f"Extracted {len(images)} images from {pdf_path}")
-            
-            categorized_images = categorize_images(images, config)
+                # config.set('Files', 'INPUT', filepath)
+                # with open('modules/pdf_processing/config.cfg', 'w') as configfile:
+                #     config.write(configfile)
 
-            for category, imgs in categorized_images.items():
-                output_pdf_path = f"{output_path}/{filename}_{category}.pdf"
-                images_to_pdf(imgs, output_pdf_path)
-                print(f"Generated PDF for {category} at {output_pdf_path}")
+                input_folder = config['Files']['INPUT']
+                output_folder = config['Files']['OUTPUT']
+
+                if not os.path.exists(output_folder):
+                    os.makedirs(output_folder)
+
+                for file_name in os.listdir(input_folder):
+                    if file_name.endswith(".pdf"):
+                        pdf_path = os.path.join(input_folder, file_name)
+                        images = extract_images_from_pdf(pdf_path)
+                        print(f"Extracted {len(images)} images from {pdf_path}")
+
+                        categorized_images = categorize_images(images, config)
+                        base_filename = os.path.splitext(os.path.basename(pdf_path))[0]
+
+                        for category, imgs in categorized_images.items():
+                            output_pdf_path = os.path.join(output_folder, f"{base_filename}_{category}.pdf")
+                            images_to_pdf(imgs, output_pdf_path)
+                            print(f"Generated PDF for {category} at {output_pdf_path}")
+
+                # print(f'pdf_path: {pdf_path} output_path: {output_path} ')
+                # images = extract_images_from_pdf(pdf_path)
+                # print(f"Extracted {len(images)} images from {pdf_path}")
+
+                # categorized_images = categorize_images(images, config)
+
+                # for category, imgs in categorized_images.items():
+                #     output_pdf_path = f"{output_path}/{filename}_{category}.pdf"
+                #     images_to_pdf(imgs, output_pdf_path)
+                #     print(f"Generated PDF for {category} at {output_pdf_path}")
     return render_template('index.html')
 
 
